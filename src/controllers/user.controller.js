@@ -1,4 +1,4 @@
-import { createUser, getAll, getById } from "../repositories/user.repository";
+import { createUser, deleteUser, getAll, getById, updateUser } from "../repositories/user.repository";
 import bcrypt from "bcrypt";
 import { userValidation } from "../validations/user.validation";
 
@@ -34,7 +34,7 @@ export const get = (req, res) => {
 }
 
 export const getId = (req, res) => {
-    
+
     getById(Number(req.params.id)).then((user) => {
         res.status(200).send(user);
 
@@ -43,4 +43,26 @@ export const getId = (req, res) => {
         
     })
 
+}
+
+export const update = (req, res) => {
+
+    updateUser(Number(req.params.id), req.body).then((user) => {
+        res.status(200).send(user);
+
+    }).catch((error) => {
+        res.status(400).send(error);
+
+    })
+}
+
+export const remove = (req, res) => {
+
+    deleteUser(Number(req.params.id)).then(() => {
+        res.status(200).send();
+
+    }).catch((error) => {
+        res.status(400).send(error);
+
+    })
 }
