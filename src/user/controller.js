@@ -62,7 +62,7 @@ export class UserController {
 
     update(req, res) {
     
-        this.#userRepository.updateUser(Number(req.params.id), req.body).then((user) => {
+        return this.#userRepository.updateUser(Number(req.params.id), req.body).then((user) => {
             res.status(200).send(user);
     
         }).catch((error) => {
@@ -73,7 +73,7 @@ export class UserController {
 
     remove(req, res) {
     
-        this.#userRepository.deleteUser(Number(req.params.id)).then(() => {
+        return this.#userRepository.deleteUser(Number(req.params.id)).then(() => {
             res.status(200).send();
     
         }).catch((error) => {

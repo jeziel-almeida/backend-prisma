@@ -18,6 +18,7 @@ describe("User Controller", () => {
     }
 
     const userMock = {
+        id: "anyUserId",
         name: "anyUserName",
         email: "valid@email.com",
         phone: "anyUserPhone",
@@ -293,6 +294,135 @@ describe("User Controller", () => {
             }
 
             await controller.getId(request, response);
+
+            expect(response._status).toEqual(400);
+        })
+    })
+
+    describe("given update user", () => {
+
+        test("when success, then return user updated", async () => {
+
+            const controller = new UserController({
+                updateUser: () => Promise.resolve(userMock)
+            });
+
+            request = {
+                params: {
+                    id: "1"
+                },
+                body: {}
+            }
+
+            await controller.update(request, response);
+
+            expect(response._send).toEqual(userMock);
+        })
+
+        test("when success, then return status 200", async () => {
+
+            const controller = new UserController({
+                updateUser: () => Promise.resolve(userMock)
+            });
+
+            request = {
+                params: {
+                    id: "1"
+                },
+                body: {}
+            }
+
+            await controller.update(request, response);
+
+            expect(response._status).toEqual(200);
+        })
+
+        test("when fail, then return error message", async () => {
+
+            const controller = new UserController({
+                updateUser: () => Promise.reject({ message: "erro ao atualizar o usuário" })
+            });
+
+            request = {
+                params: {
+                    id: "1"
+                },
+                body: {}
+            }
+
+            await controller.update(request, response);
+
+            expect(response._send).toEqual({ message: "erro ao atualizar o usuário" });
+        })
+
+        test("when fail, then return status 400", async () => {
+
+            const controller = new UserController({
+                updateUser: () => Promise.reject({})
+            });
+
+            request = {
+                params: {
+                    id: "1"
+                },
+                body: {}
+            }
+
+            await controller.update(request, response);
+
+            expect(response._status).toEqual(400);
+        })
+    })
+
+    describe("given remove user", () => {
+
+        test("when success, then return status 200", async () => {
+
+            const controller = new UserController({
+                deleteUser: () => Promise.resolve({})
+            });
+
+            request = {
+                params: {
+                    id: "1"
+                }
+            }
+
+            await controller.remove(request, response);
+
+            expect(response._status).toEqual(200);
+        })
+
+        test("when fail, then return error message", async () => {
+
+            const controller = new UserController({
+                deleteUser: () => Promise.reject({ mesage: "erro ao deletar usuário" })
+            });
+
+            request = {
+                params: {
+                    id: "1"
+                }
+            }
+
+            await controller.remove(request, response);
+
+            expect(response._send).toEqual({ mesage: "erro ao deletar usuário" })
+        })
+
+        test("when fail, then return status 400", async () => {
+
+            const controller = new UserController({
+                deleteUser: () => Promise.reject({})
+            });
+
+            request = {
+                params: {
+                    id: "1"
+                }
+            }
+
+            await controller.remove(request, response);
 
             expect(response._status).toEqual(400);
         })
