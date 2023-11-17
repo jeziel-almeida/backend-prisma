@@ -18,11 +18,12 @@ export class UserController {
             const hashPassword = await bcrypt.hash(req.body.password, 10);
             req.body.password = hashPassword;
 
-            this.#userRepository.createUser(req.body).then((user) => {
+            return this.#userRepository.createUser(req.body).then((user) => {
                 res.status(201).send(user);
 
             }).catch((error) => {
                 res.status(400).send(error);
+
             })
 
         } catch (error) {
@@ -38,7 +39,7 @@ export class UserController {
 
     get(req, res) {
     
-        this.#userRepository.getAll().then((users) => {
+        return this.#userRepository.getAll().then((users) => {
             res.status(200).send(users);
     
         }).catch((error) => {
@@ -49,7 +50,7 @@ export class UserController {
 
     getId(req, res) {
     
-        this.#userRepository.getById(Number(req.params.id)).then((user) => {
+        return this.#userRepository.getById(Number(req.params.id)).then((user) => {
             res.status(200).send(user);
     
         }).catch((error) => {
