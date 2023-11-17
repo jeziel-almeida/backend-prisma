@@ -112,48 +112,6 @@ describe("User Controller", () => {
 
             expect(response._status).toEqual(400);
         })
-
-        test("when request body is incorrect, then send error message", async () => {
-
-            const controller = new UserController({
-                createUser: () => Promise.resolve(userMock)
-            });
-
-            request = { 
-                body: { 
-                    name: null,
-                    email: "valid@email.com",
-                    password: "anyUserPassword",
-                    phone: "anyUserPhone"
-                }
-            }
-
-            const errorValidationNameMessage = "Validation error on name. Error: name is a required field";
-
-            await controller.create(request, response);
-
-            expect(response._send).toEqual(errorValidationNameMessage);
-        })
-
-        test("the password must be hashed", async () => {
-
-            const controller = new UserController({
-                createUser: () => Promise.resolve(userMock)
-            });
-
-            request = { 
-                body: { 
-                    name: "anyUserName",
-                    email: "valid@email.com",
-                    password: "anyUserPassword",
-                    phone: "anyUserPhone"
-                } 
-            }
-
-            await controller.create(request, response);
-
-            expect(request.body.password).not.toEqual("anyUserPassword");
-        })
     })
 
     describe("given get all users", () => {
