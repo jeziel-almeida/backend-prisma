@@ -8,7 +8,8 @@ export const encryptPassword = async (req, res, next) => {
         next();
         
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).send("Erro ao criptografar a senha");
+        
     }
     
 }
