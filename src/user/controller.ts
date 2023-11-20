@@ -2,12 +2,11 @@ import { Request, Response } from "express";
 import { UserRepository } from "./repository";
 import { UserBD } from "./types/user.interface";
 
-
 export class UserController {
 
     #userRepository;
 
-    constructor(userRepository?: any) {
+    constructor(userRepository?: UserRepository) {
         this.#userRepository = userRepository || new UserRepository();
     }
 
@@ -35,7 +34,7 @@ export class UserController {
 
     getId(req: Request, res: Response) {
     
-        return this.#userRepository.getById(Number(req.params.id)).then((user: UserBD) => {
+        return this.#userRepository.getById(Number(req.params.id)).then((user: UserBD | null) => {
             res.status(200).send(user);
     
         }).catch((error: any) => {

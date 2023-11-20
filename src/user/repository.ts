@@ -52,7 +52,7 @@ export class UserRepository {
         return user;
     }
     
-    async updateUser(id: number, data: User) {
+    async updateUser(id: number, data: Partial<User>) {
         const user: UserBD = await prisma.user.update({
             where: {
                 id,

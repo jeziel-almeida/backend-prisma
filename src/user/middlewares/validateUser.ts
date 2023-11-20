@@ -5,7 +5,7 @@ const userValidation = yup.object({
     name: yup.string().required(),
     email: yup.string().required(),
     password: yup.string().required().min(6),
-    phone: yup.string().nullable(true)
+    phone: yup.string().nullable()
 });
 
 export const validateUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -15,7 +15,7 @@ export const validateUser = async (req: Request, res: Response, next: NextFuncti
         await userValidation.validate(req.body);
         next();
 
-    } catch (error) {
+    } catch (error: any) {
         const message = "Validation error on " + error.path + ". Error: " + error.errors[0];
         res.status(400).send(message);
     }
